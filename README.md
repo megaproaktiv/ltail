@@ -14,6 +14,10 @@
     - `--invert` Invert white colors to black for light color schemes
     - `--raw`, or `--pretty`, for `watch` and `get` commands respectively, toggles display of the timestamp and stream name prefix.
 
+- Automatic log level colorization
+    - `INFO` (all caps) appears with green background and black text
+    - `ERROR` (all caps) appears with red background and white text
+
 - Filter logs using CloudWatch patterns
     - `--filter foo` Filter logs for the text "foo"
 

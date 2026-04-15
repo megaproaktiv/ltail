@@ -117,11 +117,13 @@ func (b *Blade) GetEvents() {
 		}
 
 		for _, event := range page.Events {
+			var message string
 			if b.output.Pretty {
-				fmt.Println(formatEvent(formatter, event))
+				message = formatEvent(formatter, event)
 			} else {
-				fmt.Println(aws.ToString(event.Message))
+				message = aws.ToString(event.Message)
 			}
+			fmt.Println(colorizeLogLevel(message))
 		}
 	}
 }
@@ -168,7 +170,7 @@ func (b *Blade) StreamEvents() {
 						message = formatEvent(formatter, event)
 					}
 					message = strings.TrimRight(message, "\n")
-					fmt.Println(message)
+					fmt.Println(colorizeLogLevel(message))
 					addSeenEventIDs(event.EventId)
 				}
 			}
@@ -179,6 +181,21 @@ func (b *Blade) StreamEvents() {
 		}
 		time.Sleep(1 * time.Second)
 	}
+}
+
+// colorizeLogLevel colorizes INFO and ERROR log levels in the message
+func colorizeLogLevel(message string) string {
+	// Define color formatters
+	infoColor := color.New(color.FgBlack, color.BgGreen).SprintFunc()
+	errorColor := color.New(color.FgWhite, color.BgRed).SprintFunc()
+	
+	// Replace INFO with colored version
+	message = strings.ReplaceAll(message, "INFO", infoColor("INFO"))
+	
+	// Replace ERROR with colored version
+	message = strings.ReplaceAll(message, "ERROR", errorColor("ERROR"))
+	
+	return message
 }
 
 // formatEvent returns a CloudWatch log event as a formatted string using the provided formatter
