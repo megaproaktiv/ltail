@@ -6,6 +6,7 @@ import (
 
 	"github.com/TylerBrock/saw/blade"
 	"github.com/TylerBrock/saw/config"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/spf13/cobra"
 )
 
@@ -27,7 +28,7 @@ var streamsCommand = &cobra.Command{
 
 		logStreams := b.GetLogStreams()
 		for _, stream := range logStreams {
-			fmt.Println(*stream.LogStreamName)
+			fmt.Println(aws.ToString(stream.LogStreamName))
 		}
 	},
 }

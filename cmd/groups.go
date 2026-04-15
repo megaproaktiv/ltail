@@ -5,6 +5,7 @@ import (
 
 	"github.com/TylerBrock/saw/blade"
 	"github.com/TylerBrock/saw/config"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/spf13/cobra"
 )
 
@@ -19,7 +20,7 @@ var groupsCommand = &cobra.Command{
 		b := blade.NewBlade(&groupsConfig, &awsConfig, nil)
 		logGroups := b.GetLogGroups()
 		for _, group := range logGroups {
-			fmt.Println(*group.LogGroupName)
+			fmt.Println(aws.ToString(group.LogGroupName))
 		}
 	},
 }
