@@ -60,6 +60,46 @@ saw get production > logs.txt  # Colors automatically disabled
 
 ---
 
+## 🖥️ Dual View (`dual` command)
+
+Watch two log groups in horizontal split-pane fullscreen TUI.
+
+### Features
+
+- **Exact 50/50 split**: Each pane takes exactly half screen height
+- **Tail mode**: Automatically starts from last 5 minutes (unless `--start1/2` specified)
+- **Auto-scroll**: New messages automatically scroll to bottom
+- **Single-line display**: Newlines replaced with spaces for clean rendering
+- **Independent controls**: Each pane has its own filters, prefixes, scrolling
+
+### Usage
+
+```bash
+# Basic dual view
+saw dual log-group-1 log-group-2
+
+# With filters
+saw dual api worker --filter1 ERROR --filter2 ERROR
+
+# With time ranges (overrides default 5-minute tail)
+saw dual api worker --start1 -1h --start2 -30m
+```
+
+### Keyboard Controls
+
+- `q`, `Ctrl+C`, `Esc` - Quit
+- `Tab` - Switch active pane
+- `↑`/`↓` or `k`/`j` - Scroll up/down (pauses auto-scroll)
+- `g` - Jump to top
+- `G` - Jump to bottom (resumes auto-scroll)
+
+### Behavior
+
+- **Default**: Shows last 5 minutes of logs from both groups
+- **Auto-scroll**: Automatically shows newest messages as they arrive
+- **Manual scroll**: Scroll up to pause auto-scroll, press `G` to resume
+- **No gaps**: Exact 50% height per pane, no extra line feeds
+
 ## ✂️ Line Shortening (`--shorten` / `-s`)
 
 Truncate lines exceeding 512 characters to keep output clean.
@@ -186,6 +226,12 @@ saw get production --start -6h -s | less
 ```
 Review 6 hours of logs with shortening, paginated.
 
+#### 6. Compare Two Services (Dual View)
+```bash
+saw dual production-api production-worker
+```
+Watch two log groups in split-pane fullscreen TUI.
+
 ---
 
 ## 🔧 All Flags Reference
@@ -197,6 +243,33 @@ Review 6 hours of logs with shortening, paginated.
 | `--profile` | AWS profile to use |
 | `--region` | AWS region override |
 | `--endpoint-url` | Custom endpoint (LocalStack, etc.) |
+
+### Dual Command
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--filter1` | | CloudWatch filter for first pane |
+| `--filter2` | | CloudWatch filter for second pane |
+| `--prefix1` | | Stream prefix for first pane |
+| `--prefix2` | | Stream prefix for second pane |
+| `--start1` | | Start time for first pane |
+| `--start2` | | Start time for second pane |
+| `--shorten1` | | Shorten lines for first pane |
+| `--shorten2` | | Shorten lines for second pane |
+| `--shorten` | `-s` | Shorten lines for both panes |
+
+**Keyboard Controls:**
+- `q`, `Ctrl+C`, `Esc` - Quit
+- `Tab` - Switch active pane
+- `↑`/`↓` or `k`/`j` - Scroll up/down (pauses auto-scroll)
+- `g` - Jump to top
+- `G` - Jump to bottom (resumes auto-scroll)
+
+**Tail Mode:**
+- Defaults to last 5 minutes of logs
+- Auto-scrolls to bottom on new messages
+- Use `--start1/2` to override default time range
+- Newlines in messages replaced with spaces
 
 ### Get Command
 
@@ -300,6 +373,7 @@ saw groups --profile myprofile
 ## 📖 Additional Resources
 
 - **Main README**: [../README.md](../README.md)
+- **Dual View Feature**: [DUAL_VIEW.md](DUAL_VIEW.md)
 - **Shorten Feature**: [SHORTEN.md](SHORTEN.md)
 - **Color Demo**: [../examples/color_demo.go](../examples/color_demo.go)
 - **Shorten Demo**: [../examples/shorten_demo.go](../examples/shorten_demo.go)
@@ -332,6 +406,18 @@ saw get api-gateway --filter "401\|403" --start -24h
 ### Data Engineer: ETL Monitoring
 ```bash
 saw watch /aws/glue/jobs --prefix etl-pipeline -s --filter "ERROR\|WARN"
+```
+
+### Platform Engineer: Compare Deployments
+```bash
+# Compare versions (auto-scrolls to show latest from each)
+saw dual production-app production-app --prefix1 v1.2.3 --prefix2 v1.2.4
+```
+
+### Operations: Real-time Monitoring
+```bash
+# Tail mode - automatically shows newest logs from last 5 minutes
+saw dual frontend backend --filter1 ERROR --filter2 ERROR
 ```
 
 ---

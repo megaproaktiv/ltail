@@ -19,6 +19,11 @@
     - `INFO` (all caps) appears with green background and black text
     - `ERROR` (all caps) appears with red background and white text
 
+- Dual split-pane view with Bubble Tea TUI
+    - `saw dual log-group-1 log-group-2` Watch two log groups in fullscreen split view
+    - Interactive keyboard navigation with vim-style controls
+    - Independent filtering and scrolling for each pane
+
 - Filter logs using CloudWatch patterns
     - `--filter foo` Filter logs for the text "foo"
 
@@ -65,6 +70,23 @@
 
     # Get logs with shortened lines (useful for logs with large payloads)
     saw get production -s --pretty
+    ```
+
+- Dual (Split View)
+    ```sh
+    # Watch two log groups in split-pane view
+    saw dual production-api production-worker
+
+    # Compare errors between two services
+    saw dual service-a service-b --filter1 ERROR --filter2 ERROR
+
+    # Monitor deployment with old and new versions
+    saw dual production production --prefix1 v1.0 --prefix2 v2.0
+
+    # Different filters per pane
+    saw dual api-logs worker-logs --filter1 "POST /api" --filter2 "job completed"
+
+    # Keyboard controls: q=quit, tab=switch pane, ↑↓/jk=scroll, g/G=top/bottom
     ```
 
 ### Profile and Region Support

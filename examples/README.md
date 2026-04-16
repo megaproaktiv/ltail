@@ -111,3 +111,86 @@ func shortenLine(line string) string {
 ```
 
 This ensures you can still see the beginning of each log message while keeping the output clean and manageable.
+
+## Dual View Demo
+
+The `dual_demo.md` document provides comprehensive examples for using the dual split-pane view feature.
+
+### Viewing the Demo
+
+```bash
+# Read the documentation
+cat examples/dual_demo.md
+
+# Or open in your browser/editor
+open examples/dual_demo.md
+```
+
+### Features Demonstrated
+
+- **Split-pane TUI**: Fullscreen terminal interface with two horizontal panes
+- **Real-time monitoring**: Watch two log groups simultaneously
+- **Interactive navigation**: Vim-style keyboard controls
+- **Independent configuration**: Each pane can have different filters and settings
+
+### Use Cases
+
+The dual view is particularly useful when:
+
+1. **Comparing deployments**: Monitor old vs new version side-by-side
+2. **Debugging microservices**: Watch request flow through multiple services
+3. **Error correlation**: Compare errors between related services
+4. **Performance monitoring**: Track metrics across different components
+5. **A/B testing**: Compare behavior of different variants
+
+### Integration with Saw
+
+The dual view feature is accessed through the `dual` command:
+
+```bash
+# Basic usage
+saw dual log-group-1 log-group-2
+
+# With filters per pane
+saw dual production-api production-worker \
+  --filter1 ERROR \
+  --filter2 ERROR
+
+# With different prefixes
+saw dual /aws/lambda/logs /aws/lambda/logs \
+  --prefix1 function-a \
+  --prefix2 function-b
+
+# With line shortening
+saw dual api-gateway data-pipeline -s
+```
+
+### Keyboard Controls
+
+- `q`, `Ctrl+C`, or `Esc` - Quit the application
+- `Tab` - Switch between panes
+- `↑`/`↓` or `k`/`j` - Scroll up/down in active pane
+- `g` - Jump to top of active pane
+- `G` - Jump to bottom of active pane
+
+### Implementation
+
+The dual view is built with:
+- [Bubble Tea](https://github.com/charmbracelet/bubbletea) - TUI framework
+- [Lipgloss](https://github.com/charmbracelet/lipgloss) - Terminal styling
+
+Each pane independently:
+- Fetches logs from CloudWatch
+- Maintains scroll position
+- Applies filters and formatting
+- Updates every second
+
+### Tips
+
+1. **Start with no filters** to get an overview, then add filters as needed
+2. **Use time ranges** to skip old logs: `--start1 -15m --start2 -15m`
+3. **Create aliases** for common monitoring tasks
+4. **Minimum terminal size**: 80x24 (recommended: 120x40 or larger)
+5. **Switch panes with Tab** before trying to scroll
+
+See [dual_demo.md](dual_demo.md) for detailed examples and scenarios.
