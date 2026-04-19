@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/TylerBrock/saw/bubble"
-	"github.com/TylerBrock/saw/config"
+	"github.com/megaproaktiv/ltail/bubble"
+	"github.com/megaproaktiv/ltail/config"
 	"github.com/spf13/cobra"
 )
 

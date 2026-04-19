@@ -27,7 +27,7 @@ tasks:
       - "{{.DIST_DIR}}/{{.BINARY_NAME}}"
 
   install:
-    desc: Install saw binary to user local bin
+    desc: Install ltail binary to user local bin
     deps:
       - build
     cmds:

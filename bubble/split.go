@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/TylerBrock/saw/config"
+	"github.com/megaproaktiv/ltail/config"
 	"github.com/fatih/color"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"

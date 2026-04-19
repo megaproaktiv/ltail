@@ -9,7 +9,7 @@ jobs:
       - run: curl -sL https://git.io/goreleaser | bash
 
 workflows:
-  deploy_saw:
+  deploy_ltail:
     jobs:
       - deploy:
         filters:

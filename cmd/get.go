@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/TylerBrock/saw/blade"
-	"github.com/TylerBrock/saw/config"
+	"github.com/megaproaktiv/ltail/blade"
+	"github.com/megaproaktiv/ltail/config"
 	"github.com/spf13/cobra"
 )
 
@@ -30,7 +30,7 @@ var getCommand = &cobra.Command{
 			streams := b.GetLogStreams()
 			if len(streams) == 0 {
 				fmt.Printf("No streams found in %s with prefix %s\n", getConfig.Group, getConfig.Prefix)
-				fmt.Printf("To view available streams: `saw streams %s`\n", getConfig.Group)
+				fmt.Printf("To view available streams: `ltail streams %s`\n", getConfig.Group)
 				os.Exit(3)
 			}
 			getConfig.Streams = streams

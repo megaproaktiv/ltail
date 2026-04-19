@@ -1,4 +1,4 @@
-module github.com/TylerBrock/saw
+module github.com/megaproaktiv/ltail
 
 go 1.24.0
 

@@ -50,7 +50,7 @@ brews:
       email: silberkopf@gmail.com
     directory: Formula
     homepage: "https://www.go-on-aws.com"
-    description: "Based on TylerBrock/saw - Fast, multipurpose tool for AWS Lambda CloudWatch Logs"
+    description: "Fast, multipurpose tool for AWS CloudWatch Logs. Based on TylerBrock/saw."
     license: MIT
 
 git:

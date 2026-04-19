@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/TylerBrock/saw/blade"
-	"github.com/TylerBrock/saw/config"
+	"github.com/megaproaktiv/ltail/blade"
+	"github.com/megaproaktiv/ltail/config"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/spf13/cobra"
 )

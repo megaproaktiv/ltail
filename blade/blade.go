@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/TylerBrock/colorjson"
-	"github.com/TylerBrock/saw/config"
+	"github.com/megaproaktiv/ltail/config"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs"
@@ -17,7 +17,7 @@ import (
 	"github.com/fatih/color"
 )
 
-// A Blade is a Saw execution instance
+// A Blade is an ltail execution instance
 type Blade struct {
 	config *config.Configuration
 	aws    *config.AWSConfiguration

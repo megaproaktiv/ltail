@@ -47,8 +47,8 @@
 ### Build & Installation
 
 - **Task-based Build System** - New Taskfile.yml for streamlined building
-  - `task build` - Build binary to `dist/saw`
-  - `task install` - Install binary to `~/.local/bin/saw`
+  - `task build` - Build binary to `dist/ltail`
+  - `task install` - Install binary to `~/.local/bin/ltail`
   - `task clean` - Remove build artifacts
 
 ### Documentation
