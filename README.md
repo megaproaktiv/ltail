@@ -101,26 +101,11 @@ ltail groups --region us-west-1
 
 ## Installation
 
-### Mac OS X
-
-```sh
-brew tap megaproaktiv/ltail
-brew install ltail
-```
-
 ### Manual Install/Update
 
 - [Install go](https://golang.org/doc/install)
 - Configure your `GOPATH` and add `$GOPATH/bin` to your path
 - Run `go install github.com/megaproaktiv/ltail@latest`
-
-Alternatively you can hard code these in your shell's init scripts (bashrc, zshrc, etc...):
-
-```sh
-# Export profile and region that override the default
-export AWS_PROFILE='work_profile'
-export AWS_REGION='us-west-1'
-```
 
 ## Run Tests
 From root of repository: `go test -v ./...`
