@@ -21,13 +21,13 @@ var LtailCommand = &cobra.Command{
 var awsConfig config.AWSConfiguration
 
 func init() {
-	SawCommand.AddCommand(groupsCommand)
-	SawCommand.AddCommand(streamsCommand)
-	SawCommand.AddCommand(versionCommand)
-	SawCommand.AddCommand(watchCommand)
-	SawCommand.AddCommand(getCommand)
-	SawCommand.AddCommand(dualCommand)
-	SawCommand.PersistentFlags().StringVar(&awsConfig.Endpoint, "endpoint-url", "", "override default endpoint URL")
-	SawCommand.PersistentFlags().StringVar(&awsConfig.Region, "region", "", "override profile AWS region")
-	SawCommand.PersistentFlags().StringVar(&awsConfig.Profile, "profile", "", "override default AWS profile")
+	LtailCommand.AddCommand(groupsCommand)
+	LtailCommand.AddCommand(streamsCommand)
+	LtailCommand.AddCommand(versionCommand)
+	LtailCommand.AddCommand(watchCommand)
+	LtailCommand.AddCommand(getCommand)
+	LtailCommand.AddCommand(dualCommand)
+	LtailCommand.PersistentFlags().StringVar(&awsConfig.Endpoint, "endpoint-url", "", "override default endpoint URL")
+	LtailCommand.PersistentFlags().StringVar(&awsConfig.Region, "region", "", "override profile AWS region")
+	LtailCommand.PersistentFlags().StringVar(&awsConfig.Profile, "profile", "", "override default AWS profile")
 }
