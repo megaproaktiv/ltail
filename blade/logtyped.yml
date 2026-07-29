@@ -8,3 +8,60 @@ logtypes:
       - key: ContactFlowName
         label: Name
         width: 32
+
+  - id: 3
+    description: Lambda structured logs (INFO only)
+    filter:
+      level: INFO
+    fields:
+      - key: level
+        label: Level
+        width: 0
+      - key: msg
+        label: Message
+        width: 0
+
+  - id: 4
+    description: Bedrock Agent Core Gateway (INFO/WARN/ERROR)
+    filter_in:
+      severityText: [INFO, WARN, ERROR]
+    fields:
+      - key: body.isError
+        label: Type
+        width: 0
+        value_map:
+          "false": Message
+          "true": Error
+      - key: body.log
+        label: Log
+        width: 0
+
+  - id: 2
+    description: AWS Connect Agent Assist
+    event_type_key: event_type
+    default_fields:
+      - key: event_type
+        label: Type
+        width: 0
+    event_rules:
+      - match: TRANSCRIPT_ORCHESTRATION_MESSAGE
+        fields:
+          - key: event_type
+            label: Type
+            width: 0
+          - key: participant
+            label: Party
+            width: 0
+          - key: values
+            label: Message
+            width: 0
+            transform: json_text_array
+      - match: TRANSCRIPT_AGENTIC_MESSAGE
+        fields:
+          - key: event_type
+            label: Type
+            width: 0
+          - key: parsed_response
+            label: parsed_response
+            width: 0
+            transform: single_line

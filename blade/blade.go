@@ -173,16 +173,19 @@ func (b *Blade) StreamEvents() {
 			for _, event := range page.Events {
 				updateLastSeenTime(event.Timestamp)
 				if _, seen := seenEventIDs[aws.ToString(event.EventId)]; !seen {
-					seq++
+					addSeenEventIDs(event.EventId) // always mark seen, even if we skip
+
 					var message string
 					switch {
 					case b.output.LogType > 0:
-						formatted, ok := formatWithLogType(b.output.LogType, seq, aws.ToString(event.Message))
-						if ok {
-							message = formatted
-						} else {
-							message = aws.ToString(event.Message)
+						// seq+1 is tentative; only commit when the message is displayed.
+						// Non-JSON (!ok) and filtered-out (ok && "") are skipped silently.
+						formatted, ok := formatWithLogType(b.output.LogType, seq+1, aws.ToString(event.Message))
+						if !ok || formatted == "" {
+							continue
 						}
+						seq++
+						message = formatted
 					case b.output.Raw:
 						message = aws.ToString(event.Message)
 					default:
@@ -196,7 +199,6 @@ func (b *Blade) StreamEvents() {
 						message = shortenLine(message)
 					}
 					fmt.Println(message)
-					addSeenEventIDs(event.EventId)
 				}
 			}
 		}

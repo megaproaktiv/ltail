@@ -87,6 +87,19 @@ Based on [TylerBrock/saw](https://github.com/TylerBrock/saw), ltail uses AWS SDK
     # Keyboard controls: q=quit, tab=switch pane, ↑↓/jk=scroll, g/G=top/bottom
     ```
 
+- Logtype — compact, field-extracted views of structured JSON logs
+    ```sh
+    ltail watch --logtype <n> <log-group>
+    ```
+  | # | Target | Output |
+  |---|--------|--------|
+  | 1 | AWS Connect contact flow | `[0001] Type: PlayPrompt                 Name: Default customer whisper  ` |
+  | 2 | AWS Connect Agent Assist | `[0002] Type: TRANSCRIPT_ORCHESTRATION_MESSAGE Party: CUSTOMER Message: ich habe ein problem` |
+  | 3 | Lambda (INFO only) | `[0003] Level: INFO Message: handler invoked` |
+  | 4 | Bedrock Agent Core Gateway (INFO/WARN/ERROR) | `[0004] Type: Message Log: Executing tool get-available-callback-slots` |
+
+  Log type definitions live in `blade/logtyped.yml` (embedded at build time). Each entry configures field labels, column widths, optional per-event-type branching, field transforms, and key/value filters. Add a new entry and run `task build` to extend.
+
 ### Profile and Region Support
 
 By default ltail uses the region and credentials in your default profile. You can override these to your liking using the command line flags:
