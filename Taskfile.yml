@@ -21,6 +21,7 @@ tasks:
       - go build -o {{.DIST_DIR}}/{{.BINARY_NAME}} .
     sources:
       - "**/*.go"
+      - blade/logtyped.yml
       - go.mod
       - go.sum
     generates:
@@ -31,11 +32,7 @@ tasks:
     deps:
       - build
     cmds:
-      - mkdir -p {{.INSTALL_DIR}}
-      - cp {{.DIST_DIR}}/{{.BINARY_NAME}} {{.INSTALL_DIR}}/{{.BINARY_NAME}}
-      - chmod +x {{.INSTALL_DIR}}/{{.BINARY_NAME}}
-    preconditions:
-      - test -f {{.DIST_DIR}}/{{.BINARY_NAME}}
+      - go install .
 
   clean:
     desc: Remove build artifacts

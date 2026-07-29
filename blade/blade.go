@@ -9,12 +9,12 @@ import (
 	"time"
 
 	"github.com/TylerBrock/colorjson"
-	"github.com/megaproaktiv/ltail/config"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/types"
 	"github.com/fatih/color"
+	"github.com/megaproaktiv/ltail/config"
 )
 
 // A Blade is an ltail execution instance
@@ -145,6 +145,10 @@ func (b *Blade) StreamEvents() {
 	}
 
 	addSeenEventIDs := func(id *string) {
+		// Guard against unbounded growth when many events share the same timestamp.
+		if len(seenEventIDs) > 10_000 {
+			clearSeenEventIds()
+		}
 		seenEventIDs[aws.ToString(id)] = true
 	}
 
@@ -154,6 +158,8 @@ func (b *Blade) StreamEvents() {
 			clearSeenEventIds()
 		}
 	}
+
+	seq := 0
 
 	for {
 		paginator := cloudwatchlogs.NewFilterLogEventsPaginator(b.cwl, input)
@@ -167,14 +173,25 @@ func (b *Blade) StreamEvents() {
 			for _, event := range page.Events {
 				updateLastSeenTime(event.Timestamp)
 				if _, seen := seenEventIDs[aws.ToString(event.EventId)]; !seen {
+					seq++
 					var message string
-					if b.output.Raw {
+					switch {
+					case b.output.LogType > 0:
+						formatted, ok := formatWithLogType(b.output.LogType, seq, aws.ToString(event.Message))
+						if ok {
+							message = formatted
+						} else {
+							message = aws.ToString(event.Message)
+						}
+					case b.output.Raw:
 						message = aws.ToString(event.Message)
-					} else {
+					default:
 						message = formatEvent(formatter, event)
 					}
 					message = strings.TrimRight(message, "\n")
-					message = colorizeLogLevel(message)
+					if b.output.LogType == 0 {
+						message = colorizeLogLevel(message)
+					}
 					if b.output.Shorten {
 						message = shortenLine(message)
 					}
@@ -187,7 +204,7 @@ func (b *Blade) StreamEvents() {
 		if lastSeenTime != nil {
 			input.StartTime = lastSeenTime
 		}
-		time.Sleep(1 * time.Second)
+		time.Sleep(3 * time.Second)
 	}
 }
 

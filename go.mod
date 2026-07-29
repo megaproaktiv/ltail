@@ -11,6 +11,7 @@ require (
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/fatih/color v1.7.0
 	github.com/spf13/cobra v0.0.3
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (

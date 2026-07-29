@@ -1,0 +1,10 @@
+logtypes:
+  - id: 1
+    description: AWS Connect contact flow trace
+    fields:
+      - key: ContactFlowModuleType
+        label: Type
+        width: 64
+      - key: ContactFlowName
+        label: Name
+        width: 32

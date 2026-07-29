@@ -13,6 +13,7 @@ type OutputConfiguration struct {
 	RawString bool
 	NoColor   bool
 	Shorten   bool
+	LogType   int
 }
 
 func (c *OutputConfiguration) Formatter() *colorjson.Formatter {
