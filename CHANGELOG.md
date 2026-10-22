@@ -1,7 +1,13 @@
 # Changelog
 
 
-## v0.3.0 (Unreleased)
+## v0.3.3
+
+- Added log type definitions for Connect AI (logtypes)
+- Added Connect log type handling
+- Homebrew tap packaging fixes
+
+## v0.3.0
 
 ### Major Changes
 
